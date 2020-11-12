@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+    php:
+        build:
+            context: .
+        volumes:
+            - ./:/srv
+            - vendor:/srv/vendor:ro
+        working_dir: /srv
+        environment:
+            - DATABASE=/srv/database/app.sqlite
+            # - APP_ENV=production
+        ports:
+            - "80:80"
+        entrypoint: ['php', '-S', '0.0.0.0:80', '-t', 'public/']
+    composer:
+        image: composer:latest
+        volumes:
+            - ./:/srv
+            - vendor:/srv/vendor
+            - ${HOME}/.composer:/tmp
+        working_dir: /srv
+        command: install
+        depends_on:
+            - php
+volumes:
+    vendor:

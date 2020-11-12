@@ -1,0 +1,32 @@
+{
+    "name": "konstantin/stack",
+    "type": "project",
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/container": "9.x-dev",
+        "symfony/http-foundation": "9999999-dev",
+        "symfony/security-core": "9999999-dev",
+        "illuminate/database": "9.x-dev",
+        "monolog/monolog": "2.x-dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5@dev",
+        "friendsofphp/php-cs-fixer": "9999999-dev",
+        "spatie/phpunit-watcher": "9999999-dev",
+        "symfony/var-dumper": "9999999-dev",
+        "mockery/mockery": "1.4.x-dev"
+    },
+    "autoload": {
+        "files": [
+            "app/helpers.php"
+        ],
+        "psr-4": {
+            "Stack\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}
