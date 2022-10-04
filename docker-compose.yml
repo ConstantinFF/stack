@@ -1,8 +1,7 @@
 version: "3.8"
 services:
     php:
-        build:
-            context: .
+        image: php:7.4-fpm-alpine
         volumes:
             - ./:/srv
             - vendor:/srv/vendor:ro
@@ -12,7 +11,18 @@ services:
             # - APP_ENV=production
         ports:
             - "80:80"
-        entrypoint: ['php', '-S', '0.0.0.0:80', '-t', 'public/']
+        entrypoint: [ 'php', '-S', '0.0.0.0:80', '-t', 'public/' ]
+    migrate:
+        image: php:7.4-fpm-alpine
+        volumes:
+            - ./:/srv
+            - vendor:/srv/vendor:ro
+        working_dir: /srv
+        environment:
+            - DATABASE=/srv/database/app.sqlite
+        entrypoint: [ 'php', 'command', 'DatabaseMigrate' ]
+        depends_on:
+            - composer
     composer:
         image: composer:latest
         volumes:
@@ -20,7 +30,7 @@ services:
             - vendor:/srv/vendor
             - ${HOME}/.composer:/tmp
         working_dir: /srv
-        command: install
+        command: install --ignore-platform-reqs
         depends_on:
             - php
 volumes:
